@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  auth:
+    build:
+      context: ./authentication
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    networks:
+      - project_network
+
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - project_network
+
+networks:
+  project_network:

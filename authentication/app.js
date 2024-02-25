@@ -11,14 +11,12 @@ const credentials = {
     "admin": "password"
 }
 
-app.post('/', (req, res) => {
+app.post('/auth', (req, res) => {
     const { username, password } = req.body
     console.log(username)
     if (credentials[username] && credentials[username] === password) {
-        // If username and password match, return success
         res.status(201).json({ message: 'User validated successfully' });
     } else {
-        // If username or password is incorrect, return error
         res.status(401).json({ error: 'Invalid username or password' });
     }
 })
