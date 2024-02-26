@@ -10,9 +10,10 @@ const Upload = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const res = axios.post("http://localhost:3002/upload", {
+      const res = await axios.post("http://localhost:3002/upload", {
         video: file,
       });
+      console.log(res);
     } catch (error) {
       console.error(error);
     }
