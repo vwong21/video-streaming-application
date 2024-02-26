@@ -1,4 +1,4 @@
-import { Router, Route, useNavigate } from "react-router-dom";
+import { Router, Route, useNavigate, Link } from "react-router-dom";
 import "../App.css";
 import { useAuth } from "../contexts/AuthContext";
 import { useEffect } from "react";
@@ -16,6 +16,9 @@ function App() {
 
   return (
     <>
+      <nav>
+        <Link to={"upload"}>Upload</Link>
+      </nav>
       <h1>Home</h1>
     </>
   );

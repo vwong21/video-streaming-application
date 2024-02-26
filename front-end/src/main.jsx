@@ -6,6 +6,7 @@ import "./index.css";
 import Auth from "./pages/Auth.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import AuthProvider from "./contexts/AuthContext.jsx";
+import Upload from "./pages/Upload.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,11 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth />,
+    errorElement: <NotFoundPage />,
+  },
+  {
+    path: "/upload",
+    element: <Upload />,
     errorElement: <NotFoundPage />,
   },
 ]);
