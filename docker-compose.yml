@@ -10,6 +10,16 @@ services:
     networks:
       - project_network
 
+  upload:
+    build:
+      context: ./upload
+      dockerfile: Dockerfile
+    volumes:
+      - ./videos:/app/videos
+    ports:
+      - "3002:3002"
+    networks:
+      - project_network
   frontend:
     build:
       context: ./front-end
