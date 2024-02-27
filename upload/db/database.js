@@ -1,7 +1,10 @@
 const mysql = require('mysql2')
 
+// const db = 'localhost'
+const db = 'db'
+
 const pool = mysql.createPool({
-    host: 'db',
+    host: db,
     user: 'root',
     password: 'password',
     database: 'video_streaming_app'

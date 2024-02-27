@@ -2,7 +2,7 @@ const express = require('express')
 const multer = require('multer')
 const router = express.Router()
 // const videosPath = '..//videos/'
-const videosPath = '/app/videos/'
+const videosPath = 'videos/'
 const { getVideo, createVideo } = require('../db/database')
 
 const storage = multer.diskStorage({
@@ -17,9 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 router.post('/', upload.single('video'), async (req, res) => {
-    // Check if multer encountered an error during file upload
     if (!req.file) {
-        // No file was provided or something went wrong during upload
         return res.status(400).json({ error: 'No file uploaded or an error occurred' });
     }
     const title = req.body.title

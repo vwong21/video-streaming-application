@@ -7,6 +7,7 @@ import Auth from "./pages/Auth.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import AuthProvider from "./contexts/AuthContext.jsx";
 import Upload from "./pages/Upload.jsx";
+import Stream from "./pages/Stream.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,12 +25,15 @@ const router = createBrowserRouter([
     element: <Upload />,
     errorElement: <NotFoundPage />,
   },
+  {
+    path: "/stream",
+    element: <Stream />,
+    errorElement: <NotFoundPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
-  </React.StrictMode>
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>
 );

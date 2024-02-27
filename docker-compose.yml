@@ -20,12 +20,26 @@ services:
       - "3002:3002"
     networks:
       - project_network
+
   frontend:
     build:
       context: ./front-end
       dockerfile: Dockerfile
+    volumes:
+      - ./videos:/app/public/videos
     ports:
       - "5173:5173"
+    networks:
+      - project_network
+
+  stream:
+    build:
+      context: ./stream
+      dockerfile: Dockerfile
+    volumes:
+      - ./videos:/app/videos
+    ports:
+      - "3003:3003"
     networks:
       - project_network
 
