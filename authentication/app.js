@@ -17,7 +17,7 @@ app.post('/auth', (req, res) => {
     if (credentials[username] && credentials[username] === password) {
         res.status(201).json({ message: 'User validated successfully' });
     } else {
-        res.status(401).json({ error: `Username: ${username} Password: ${password} does not match Username: ${username} Password: ${credentials[username]}` });
+        res.status(401).json({ error: 'Invalid username or password' });
     }
 })
 
