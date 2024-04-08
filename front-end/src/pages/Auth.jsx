@@ -12,10 +12,13 @@ const Auth = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3001/auth", {
-        username: username,
-        password: password,
-      });
+      const res = await axios.post(
+        "http://video-streaming.eastus.cloudapp.azure.com:3001/auth",
+        {
+          username: username,
+          password: password,
+        }
+      );
       navigate("/");
       login();
     } catch (error) {

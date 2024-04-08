@@ -10,7 +10,7 @@ const Stream = () => {
     try {
       console.log(title);
       const res = await axios
-        .get("http://localhost:3003/stream", {
+        .get("http://video-streaming.eastus.cloudapp.azure.com:3003/stream", {
           params: {
             title: title,
           },

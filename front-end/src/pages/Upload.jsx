@@ -14,7 +14,10 @@ const Upload = () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("video", file);
-      const res = await axios.post("http://localhost:3002/upload", formData);
+      const res = await axios.post(
+        "http://video-streaming.eastus.cloudapp.azure.com:3002/upload",
+        formData
+      );
       console.log(res);
     } catch (error) {
       console.error(error);
