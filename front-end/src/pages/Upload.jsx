@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const Upload = () => {
   const [file, setFile] = useState();
   const [title, setTitle] = useState();
+  const uploadURL = import.meta.env.VITE_UPLOAD_URL;
   const handleChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -14,10 +15,7 @@ const Upload = () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("video", file);
-      const res = await axios.post(
-        "http://video-streaming.eastus.cloudapp.azure.com:3002/upload",
-        formData
-      );
+      const res = await axios.post(uploadURL, formData);
       console.log(res);
     } catch (error) {
       console.error(error);

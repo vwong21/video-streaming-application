@@ -8,17 +8,15 @@ const Auth = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const authURL = import.meta.env.VITE_AUTH_URL;
   const submitForm = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://video-streaming.eastus.cloudapp.azure.com:3001/auth",
-        {
-          username: username,
-          password: password,
-        }
-      );
+      const res = await axios.post(authURL, {
+        username: username,
+        password: password,
+      });
       navigate("/");
       login();
     } catch (error) {

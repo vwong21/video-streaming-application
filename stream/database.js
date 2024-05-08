@@ -1,13 +1,11 @@
+require("dotenv").config()
 const mysql = require('mysql2')
 
-// const db = 'localhost'
-const db = 'db'
-
 const pool = mysql.createPool({
-    host: db,
-    user: 'root',
-    password: 'password',
-    database: 'video_streaming_app'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 }).promise();
 
 const getVideo = async (title) => {

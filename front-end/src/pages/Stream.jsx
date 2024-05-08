@@ -5,12 +5,13 @@ import axios from "axios";
 const Stream = () => {
   const [title, setTitle] = useState();
   const [filePath, setFilePath] = useState(null);
+  const streamURL = import.meta.env.VITE_STREAM_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log(title);
       const res = await axios
-        .get("http://video-streaming.eastus.cloudapp.azure.com:3003/stream", {
+        .get(streamURL, {
           params: {
             title: title,
           },

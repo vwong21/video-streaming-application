@@ -1,9 +1,9 @@
+require("dotenv").config({ path: '/app/.env' })
 const express = require('express')
 const multer = require('multer')
 const router = express.Router()
-// const videosPath = '..//videos/'
-const videosPath = 'videos/'
-const { getVideo, createVideo } = require('../db/database')
+const videosPath = process.env.VIDEOS_PATH
+const { getVideo, createVideo } = require(process.env.DB_PATH)
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
