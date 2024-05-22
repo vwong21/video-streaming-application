@@ -1,41 +1,28 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ReactPlayer from "react-player";
-import axios from "axios";
+import VideoPlayer from "./VideoPlayer";
+
 const Stream = () => {
-  const [title, setTitle] = useState();
-  const [filePath, setFilePath] = useState(null);
-  const streamURL = import.meta.env.VITE_STREAM_URL;
-  const handleSubmit = async (e) => {
+  const [title, setTitle] = useState("");
+  const [videoTitle, setVideoTitle] = useState(null);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      console.log(title);
-      const res = await axios
-        .get(streamURL, {
-          params: {
-            title: title,
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
-          setFilePath(res.data);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    setVideoTitle(title);
   };
+
   return (
     <>
       <nav>
         <ul>
           <li>
-            <Link to={"/"}>Home</Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to={"/upload"}>Upload</Link>
+            <Link to="/upload">Upload</Link>
           </li>
           <li>
-            <Link to={"/stream"}>Stream</Link>
+            <Link to="/stream">Stream</Link>
           </li>
         </ul>
       </nav>
@@ -44,19 +31,12 @@ const Stream = () => {
         <input
           type="text"
           name="title"
-          value={title || ""}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <button type="submit">Search</button>
       </form>
-      {filePath && (
-        <ReactPlayer
-          url={`/app/public/${filePath.filePath.filePath}`}
-          controls
-        />
-      )}
+      {videoTitle && <VideoPlayer videoName={videoTitle} />}
     </>
   );
 };
