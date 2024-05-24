@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import VideoPlayer from "./VideoPlayer";
+import VideoPlayer from "../components/VideoPlayer";
 
 const Stream = () => {
   const [title, setTitle] = useState("");
