@@ -1,25 +1,15 @@
-require("dotenv").config()
-const express = require('express')
+require("dotenv").config();
+const express = require('express');
 const cors = require('cors');
-const bodyparser = require('body-parser')
-const app = express()
-const { getUser } = require('./database')
+const bodyparser = require('body-parser');
+const router = require('./router');
+
+const app = express();
+
 app.use(bodyparser.json());
 app.use(cors());
+app.use('/', router); 
 
-app.post('/auth', async (req, res) => {
-    const { username, password } = req.body
-
-    try {
-        const userPassword = await getUser(username)
-        if (password != userPassword.userPassword) {
-            res.status(401).json({message: "unauthorized"})
-        }
-        res.status(201).json({ message: 'User validated successfully'})
-    }
-    catch (error) {
-        res.status(401).json({message: "Unauthorized"})
-    }
-})
-
-app.listen(3001)
+app.listen(3001, () => {
+    console.log('Server is running on port 3001');
+});
