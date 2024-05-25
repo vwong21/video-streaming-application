@@ -43,34 +43,22 @@ services:
     networks:
       - project_network
 
-  videos-db:
+  db:
     image: mysql:5.7.24
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: video_streaming_app
     volumes:
-      - videos_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
       - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
       - "3306:3306"
     networks:
       - project_network
-  
-  auth-db:
-    image: mysql:5.7.24
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: authentication
-    volumes:
-      - auth_data:/var/lib/mysql
-      - ./database/auth-schema.sql:/docker-entrypoint-initdb.d/schema.sql
-    networks:
-      - project_network
+
 volumes:
-  videos_data:
-  auth_data:
+  db_data:
 
 networks:
   project_network:
