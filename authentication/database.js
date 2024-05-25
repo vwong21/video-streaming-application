@@ -14,13 +14,14 @@ const getUser = async (username) => {
     return rows[0]
 }
 
-const createUser = async (username, firstName, lastName, password) => {
+const createUser = async (username, firstName, lastName, password, email) => {
     const rows = await pool.query(`
-    INSERT INTO users (username, firstName, lastName, userPassword) VALUES (?, ?, ?, ?)
-    `, [username, firstName, lastName, password])
+    INSERT INTO users (username, firstName, lastName, userPassword, email) VALUES (?, ?, ?, ?, ?)
+    `, [username, firstName, lastName, password, email])
     return getUser(username)
 }
 
 module.exports = {
-    getUser
+    getUser,
+    createUser
 }
