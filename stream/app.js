@@ -10,6 +10,7 @@ app.use(express.json())
 app.get('/stream', async (req, res) => {
     console.log(req.query.title)
     const filePathObject = await getVideo(req.query.title)
+    console.log(filePathObject)
     const filePath = filePathObject.filePath
     console.log(filePath)
     if (filePath == undefined) {

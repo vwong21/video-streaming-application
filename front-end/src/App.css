@@ -14,9 +14,41 @@ main {
     height: 100%;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 section {
     height: 100%;
     border: 1px #b6b6b6 solid;
+}
+
+#upload_header {
+    cursor: pointer;
+}
+
+#faded_background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5)
+}
+
+#upload_file_container {
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    z-index: 9999; 
+}
+
+#close_popup {
+    cursor: pointer;
+    width: 100%;
+    text-align: end;
 }
 
 #search_vid {
@@ -35,11 +67,17 @@ section {
 @media screen and (min-width: 2560px) and (max-width: 3839px) {
     /* Styles for 2K screens */
     header {
-        padding: 3em 0 3em 5em;
+        padding: 3em 5em 3em 5em;
     }
 
     section {
         padding: 3em 5em 3em 5em;
+    }
+
+    #upload_file_container {
+        padding: 2em 3em 2em 3em;
+        width: 55em;
+        height: 25em;
     }
 
     .browse {

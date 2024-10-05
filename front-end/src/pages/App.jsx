@@ -4,10 +4,17 @@ import "../App.css";
 import { useAuth } from "../contexts/AuthContext";
 import { useEffect } from "react";
 import VideoPlayer from "../components/VideoPlayer";
+import Upload from "./Upload";
 
 function App() {
+  const [upload, setUpload] = useState(false);
+
   const [title, setTitle] = useState("");
   const [videoTitle, setVideoTitle] = useState(null);
+
+  const toggleUpload = () => {
+    setUpload(!upload);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,8 +33,24 @@ function App() {
 
   return (
     <div id="root">
+      {upload && (
+        <div id="faded_background">
+          <div id="upload_file_container">
+            <div onClick={toggleUpload} id="close_popup">
+              Close
+            </div>
+            <div id="upload_file">
+              <Upload />
+            </div>
+          </div>
+        </div>
+      )}
+
       <header>
         <h1>StreamShelf</h1>
+        <h2 onClick={toggleUpload} id="upload_header">
+          Upload
+        </h2>
       </header>
       <main>
         <section className="browse">
