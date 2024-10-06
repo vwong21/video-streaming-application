@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const { getUser, createUser } = require('./database');
+
+dotenv.config();
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-
     try {
         const userPassword = await getUser(username);
         if (password != userPassword.userPassword) {
             return res.status(401).json({ message: "unauthorized" });
         }
-        res.status(201).json({ message: 'User validated successfully' });
+        accessToken = jwt.sign({username}, process.env.JWT_SECRET, {expiresIn: '1800s'})
+        console.log(accessToken)
+        res.status(201).json({ message: 'User validated successfully', accessToken: accessToken });
     } catch (error) {
-        res.status(401).json({ message: "Unauthorized" });
+        console.error(error)
+        res.status(500).json({ message: "Internal server error" });
     }
 });
 
