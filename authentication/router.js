@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const { getUser, createUser } = require('./database');
+const authenticateToken = require('./middleware');
 
 dotenv.config();
 
@@ -33,6 +34,10 @@ router.post('/register', async (req, res) => {
         console.error(error)
     }
 
+})
+
+router.get('/authentication', authenticateToken, (req, res) => {
+    res.json({message: 'authenticated'})
 })
 
 module.exports = router;
