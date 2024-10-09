@@ -26,17 +26,16 @@ const ProtectedRoute = ({ children }) => {
 
     checkAuth();
   }, []);
-  return (
-    <div>
-      {auth === null ? (
-        <div>loading ...</div>
-      ) : auth === false ? (
-        <Navigate to="/auth" />
-      ) : (
-        children
-      )}
-    </div>
-  );
+
+  if (auth === null) {
+    return <div>loading ...</div>; // Loading state while checking auth
+  }
+
+  if (auth === false) {
+    return <Navigate to="/auth" />; // Redirect if not authenticated
+  }
+
+  return children; // Return children directly if authenticated
 };
 
 export default ProtectedRoute;

@@ -19,7 +19,7 @@ function App() {
   };
 
   return (
-    <div id="root">
+    <div id="app">
       {upload && (
         <div id="faded_background">
           <div id="upload_file_container">
@@ -34,10 +34,14 @@ function App() {
       )}
 
       <header>
-        <h1>StreamShelf</h1>
-        <h2 onClick={toggleUpload} id="upload_header">
-          Upload
-        </h2>
+        <div id="header-container">
+          <h1>
+            Stream<span style={{ color: "#008CBA" }}>Shelf</span>
+          </h1>
+          <h2 onClick={toggleUpload} id="upload_header">
+            Upload
+          </h2>
+        </div>
       </header>
       <main>
         <section className="browse">
