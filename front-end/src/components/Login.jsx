@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
-  const { authenticated, login } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
@@ -18,8 +16,9 @@ const Login = () => {
         username: username,
         password: password,
       });
+      const accessToken = res.data.token;
+      localStorage.setItem("token", accessToken);
       navigate("/");
-      login();
     } catch (error) {
       console.error(error);
     }

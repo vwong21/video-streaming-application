@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
 })
 
 router.get('/authentication', authenticateToken, (req, res) => {
-    res.json({message: 'authenticated'})
+    res.json({message: 'authenticated'}).status(200)
 })
 
 module.exports = router;

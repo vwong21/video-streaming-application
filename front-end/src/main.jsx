@@ -5,14 +5,16 @@ import App from "./pages/App.jsx";
 import "./index.css";
 import Auth from "./pages/Auth.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import AuthProvider from "./contexts/AuthContext.jsx";
-import Upload from "./pages/Upload.jsx";
-import Stream from "./pages/Stream.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFoundPage />,
   },
   {
@@ -20,20 +22,8 @@ const router = createBrowserRouter([
     element: <Auth />,
     errorElement: <NotFoundPage />,
   },
-  {
-    path: "/upload",
-    element: <Upload />,
-    errorElement: <NotFoundPage />,
-  },
-  {
-    path: "/stream",
-    element: <Stream />,
-    errorElement: <NotFoundPage />,
-  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <AuthProvider>
-    <RouterProvider router={router} />
-  </AuthProvider>
+  <RouterProvider router={router} />
 );

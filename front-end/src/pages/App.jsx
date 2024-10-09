@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { Router, Route, useNavigate, Link } from "react-router-dom";
 import "../App.css";
-import { useAuth } from "../contexts/AuthContext";
-import { useEffect } from "react";
 import VideoPlayer from "../components/VideoPlayer";
 import Upload from "./Upload";
 
@@ -20,16 +17,6 @@ function App() {
     e.preventDefault();
     setVideoTitle(title);
   };
-
-  const navigate = useNavigate();
-  const { authenticated, login } = useAuth();
-  useEffect(() => {
-    if (authenticated == false) {
-      navigate("/auth");
-    } else {
-      console.log(authenticated);
-    }
-  });
 
   return (
     <div id="root">
