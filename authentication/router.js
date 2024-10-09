@@ -24,10 +24,10 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const {username, firstName, lastName, userPassword, email} = req.body;
-    console.log(username, firstName, lastName, userPassword, email)
+    const {username, firstName, lastName, password, email} = req.body;
+    console.log(username, firstName, lastName, password, email)
     try {
-        await createUser(username, firstName, lastName, userPassword, email)
+        await createUser(username, firstName, lastName, password, email)
         res.status(201).json({ message: 'User registered successfully' })
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' })
