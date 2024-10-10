@@ -1,20 +1,21 @@
 @font-face {
-    font-family: roboto;
-    src: url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    font-family: 'Roboto';
+    src: url('../public/Roboto-Regular.ttf');
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: roboto;
+    font-family: Roboto;
+    border: none;;
+    font-size: 1rem;
 }
 
 html, body, #root {
     height: 100%;
     background-color: #F5F5F5;
 }
-
-
 
 #root {
     width: 100%;
@@ -36,6 +37,10 @@ header {
     
 }
 
+h1 {
+    font-weight: 900;
+}
+
 #header-container {
     width: 100%;
     display: flex;
@@ -47,14 +52,30 @@ main {
     width: 100%;
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
 
-section {
+.video {
     border-radius: 5px;
-    height: 100%;
     background-color: #ffffff;
     -webkit-box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35); 
     box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35);
+}
+
+form {
+    background-color: #ffffff;
+    -webkit-box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35); 
+    box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35);
+}
+
+input {
+    border: 1px solid rgba(51, 51, 51, 0.35); 
+}
+
+button {
+    background-color: #008CBA;
+    color: #ffffff;
+    cursor: pointer;
 }
 
 #upload_header {
@@ -94,6 +115,60 @@ section {
 /* 1080p screens */
 @media screen and (min-width: 1920px) and (max-width: 2559px) {
     /* Styles for 1080p screens */
+    #app {
+        gap: 5rem;
+    }
+
+    #header-container {
+        width: 63%;
+    }
+
+    main {
+        width: 63%;
+        gap: 2.5rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    header {
+        padding: 3em 0 3em 0;
+    }
+
+    .browse {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    form {
+        height: 6.5rem;
+        padding: 2rem;
+    }
+
+    #upload_file_container {
+        padding: 2em 3em 2em 3em;
+        width: 55em;
+        height: 25em;
+    }
+
+    .browse {
+        width: 33%;
+    }
+
+    .video {
+        width: 67%;
+    }
+    
+    #search_vid input {
+        width: 80%;
+    }
+
+    #search_vid button {
+        width: 20%;
+    }
+
 }
 
 /* 2K screens */
@@ -113,7 +188,6 @@ section {
     }
 
     h1 {
-        font-weight: 900;
         font-size: 3rem;
     }
 
@@ -135,7 +209,7 @@ section {
         width: 20%;
     }
 
-    .search {
+    .video {
         width: 80%;
     }
 

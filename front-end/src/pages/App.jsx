@@ -36,7 +36,8 @@ function App() {
       <header>
         <div id="header-container">
           <h1>
-            Stream<span style={{ color: "#008CBA" }}>Shelf</span>
+            Stream
+            <span style={{ color: "#008CBA", fontSize: "3rem" }}>Shelf</span>
           </h1>
           <h2 onClick={toggleUpload} id="upload_header">
             Upload
@@ -52,10 +53,10 @@ function App() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <button type="submit">Search</button>
+            <button type="submit">GO</button>
           </form>
         </section>
-        <section className="search">
+        <section className="video">
           {videoTitle && <VideoPlayer videoName={videoTitle} />}
         </section>
       </main>
