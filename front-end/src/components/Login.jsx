@@ -12,6 +12,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
+            console.log(username, password);
             const res = await axios.post(authURL, {
                 username: username,
                 password: password,

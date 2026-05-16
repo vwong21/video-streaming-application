@@ -10,6 +10,7 @@ dotenv.config();
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     try {
+        console.log(password);
         const userPassword = await getUser(username);
         if (password != userPassword.userPassword) {
             return res.status(401).json({ message: "unauthorized" });
