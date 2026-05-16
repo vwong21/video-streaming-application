@@ -14,5 +14,6 @@ CREATE TABLE videos (
     description VARCHAR(255),
     filePath VARCHAR(255) NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
-    userId FOREIGN KEY References users(id)
+    userId INT,
+    FOREIGN KEY (userId) REFERENCES users(id)
 );
