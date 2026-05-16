@@ -47,7 +47,7 @@ app.get("/stream", async (req, res) => {
 
 app.get("/search", async (req, res) => {
     const searchQuery = req.query.search;
-    console.log(searchQuery);
+    console.log("Searching for:", searchQuery);
     if (!searchQuery)
         return res.status(400).json({ message: "no search query provided" });
     const stopWords = new Set([
@@ -176,7 +176,9 @@ app.get("/search", async (req, res) => {
         .filter((word) => word.length > 2 && !stopWords.has(word));
 
     try {
+        console.log("Searching database...");
         const results = await searchVideos(keywords);
+        console.log("Found Results:", results);
         res.json(results);
     } catch (err) {
         res.status(500).json({ message: "search failed", error: err.message });

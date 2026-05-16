@@ -22,7 +22,7 @@ function App() {
             const res = await axios.get(
                 `${import.meta.env.VITE_SEARCH_URL}?search=${title}`,
             );
-            setBrowse(res);
+            setBrowse(res.data);
         } catch (err) {
             console.error(err);
         }
@@ -67,6 +67,16 @@ function App() {
                         />
                         <button type="submit">GO</button>
                     </form>
+                    {browse.map((videoObject) => {
+                        return (
+                            <div key={videoObject.id}>
+                                <div>
+                                    <p>{videoObject.title}</p>
+                                    <p>{videoObject.description}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </section>
                 <section className="video">
                     {videoTitle && <VideoPlayer videoName={videoTitle} />}
