@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "/app/.env" });
+require("dotenv").config({ override: true });
 const mysql = require("mysql2");
 
 const pool = mysql
