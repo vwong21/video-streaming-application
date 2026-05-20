@@ -13,11 +13,14 @@ const Upload = () => {
     const submitForm = async (e) => {
         e.preventDefault();
         try {
+            const jwtToken = localStorage.getItem("token");
             const formData = new FormData();
             formData.append("title", title);
             formData.append("description", description);
             formData.append("video", file);
-            const res = await axios.post(uploadURL, formData);
+            const res = await axios.post(uploadURL, formData, {
+                headers: { Authorization: `Bearer ${jwtToken}` },
+            });
             console.log(res);
         } catch (error) {
             console.error(error);

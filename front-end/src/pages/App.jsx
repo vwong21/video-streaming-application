@@ -73,6 +73,7 @@ function App() {
                                 <div>
                                     <p>{videoObject.title}</p>
                                     <p>{videoObject.description}</p>
+                                    <p>{videoObject.username}</p>
                                 </div>
                             </div>
                         );
