@@ -1,6 +1,7 @@
 require("dotenv").config({ path: "/app/.env" });
 const express = require("express");
 const multer = require("multer");
+const jwtAuth = require("../middleware/jwtAuth");
 const router = express.Router();
 const videosPath = process.env.VIDEOS_PATH;
 const { getVideo, createVideo } = require(process.env.DB_PATH);
@@ -16,7 +17,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post("/", upload.single("video"), async (req, res) => {
+router.post("/", upload.single("video"), jwtAuth, async (req, res) => {
     if (!req.file) {
         return res
             .status(400)
@@ -25,8 +26,9 @@ router.post("/", upload.single("video"), async (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
     const filePath = `${videosPath}${req.body.title}.mp4`;
-    console.log(filePath);
-    const video = await createVideo(title, description, filePath);
+    const username = req.body.username;
+    // console.log(filePath);
+    const video = await createVideo(title, description, filePath, username);
     res.status(201).json({
         success: true,
         file: req.file,

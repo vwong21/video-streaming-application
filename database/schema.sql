@@ -1,11 +1,11 @@
 USE video_streaming_app;
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
     firstName VARCHAR(255) NOT NULL,
     lastName VARCHAR(255) NOT NULL,
     userPassword VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     created TIMESTAMP NOT NULL DEFAULT NOW()
 );
 CREATE TABLE videos (
@@ -14,6 +14,6 @@ CREATE TABLE videos (
     description VARCHAR(255),
     filePath VARCHAR(255) NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
-    userId INT,
-    FOREIGN KEY (userId) REFERENCES users(id)
+    username VARCHAR(255),
+    FOREIGN KEY (username) REFERENCES users(username)
 );
