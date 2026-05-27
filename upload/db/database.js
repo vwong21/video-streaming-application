@@ -36,7 +36,7 @@ const createVideo = async (
 ) => {
     const [result] = await pool.query(
         `
-    INSERT INTO videos (title, description, filePath, thumbnailPath, username) VALUES (?, ?, ?, ?, ?)`,
+    INSERT INTO videos (title, description, videoPath, thumbnailPath, username) VALUES (?, ?, ?, ?, ?)`,
         [title, description, videoPath, thumbnailPath, username],
     );
     const id = result.insertId;

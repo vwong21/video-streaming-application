@@ -6,7 +6,7 @@ const router = express.Router();
 const videosPath = process.env.VIDEOS_PATH;
 const thumbnailsPath = process.env.THUMBNAILS_PATH;
 const { getVideo, createVideo } = require(process.env.DB_PATH);
-const ffmpeg = require("ffmpeg");
+const { execFile } = require("child_process");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 
@@ -21,24 +21,31 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-const createThumbnail = async (videosPath) => {
-    try {
-        const process = await ffmpeg(videosPath);
-        const filename = new uuidv4();
+const createThumbnail = (videoPath) => {
+    return new Promise((resolve, reject) => {
+        const filename = `${uuidv4()}.jpg`;
+        const outputPath = path.join(thumbnailsPath, filename);
 
-        const thumbnails = process.fnExtractFrameToJPG(thumbnailsPath, {
-            number: 1,
-            start_time: 1,
-            size: "320x180",
-            filename: filename,
-        });
-        console.log(thumbnails);
-        return path.basename(thumbnails[0]);
-    } catch (error) {
-        throw new Error("Unable to create thumbnail");
-    }
+        execFile(
+            "ffmpeg",
+            [
+                "-i",
+                videoPath,
+                "-ss",
+                "00:00:02",
+                "-vframes",
+                "1",
+                "-vf",
+                "scale=320:180",
+                outputPath,
+            ],
+            (error) => {
+                if (error) return reject(error);
+                resolve(filename);
+            },
+        );
+    });
 };
-
 router.post("/", upload.single("video"), jwtAuth, async (req, res) => {
     if (!req.file) {
         return res
@@ -49,7 +56,7 @@ router.post("/", upload.single("video"), jwtAuth, async (req, res) => {
     const description = req.body.description;
     const videoPath = `${videosPath}${req.body.title}.mp4`;
     const username = req.body.username;
-    const thumbnail = await createThumbnail(filePath);
+    const thumbnail = await createThumbnail(videoPath);
     const video = await createVideo(
         title,
         description,
