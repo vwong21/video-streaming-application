@@ -1,62 +1,65 @@
 services:
-  auth:
-    build:
-      context: ./authentication
-      dockerfile: Dockerfile
-    ports:
-      - "3001:3001"
-    networks:
-      - project_network
+    auth:
+        build:
+            context: ./authentication
+            dockerfile: Dockerfile
+        ports:
+            - "3001:3001"
+        networks:
+            - project_network
 
-  upload:
-    build:
-      context: ./upload
-      dockerfile: Dockerfile
-    volumes:
-      - ./videos:/app/videos
-    ports:
-      - "3002:3002"
-    networks:
-      - project_network
+    upload:
+        build:
+            context: ./upload
+            dockerfile: Dockerfile
+        volumes:
+            - ./videos:/app/videos
+            - ./thumbnails:/app/thumbnails
+        ports:
+            - "3002:3002"
+        networks:
+            - project_network
 
-  frontend:
-    build:
-      context: ./front-end
-      dockerfile: Dockerfile
-    volumes:
-      - ./videos:/app/public/videos
-    ports:
-      - "5173:5173"
-    networks:
-      - project_network
+    frontend:
+        build:
+            context: ./front-end
+            dockerfile: Dockerfile
+        volumes:
+            - ./videos:/app/public/videos
+            - ./thumbnails:/app/public/thumbnails
+        ports:
+            - "5173:5173"
+        networks:
+            - project_network
 
-  stream:
-    build:
-      context: ./stream
-      dockerfile: Dockerfile
-    volumes:
-      - ./videos:/app/videos
-    ports:
-      - "3003:3003"
-    networks:
-      - project_network
+    stream:
+        build:
+            context: ./stream
+            dockerfile: Dockerfile
+        volumes:
+            - ./videos:/app/videos
+            - ./thumbnails:/app/thumbnails
+        ports:
+            - "3003:3003"
+        networks:
+            - project_network
 
-  db:
-    image: mysql:5.7.24
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: video_streaming_app
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-    ports:
-      - "3306:3306"
-    networks:
-      - project_network
+    db:
+        image: mysql:5.7.24
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: video_streaming_app
+        volumes:
+            - db_data:/var/lib/mysql
+            - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+        ports:
+            - "3306:3306"
+        networks:
+            - project_network
 
 volumes:
-  db_data:
+    db_data:
 
 networks:
-  project_network:
+    project_network:
