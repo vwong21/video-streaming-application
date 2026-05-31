@@ -72,7 +72,9 @@ function App() {
                         return (
                             <div key={videoObject.id}>
                                 <div>
-                                    <img src={videoObject.thumbnailPath}></img>
+                                    <img
+                                        src={`${import.meta.env.VITE_THUMBNAIL_URL_BASE}${videoObject.thumbnailPath}`}
+                                    ></img>
                                     <p>{videoObject.title}</p>
                                     <p>{videoObject.description}</p>
                                     <p>{videoObject.username}</p>
