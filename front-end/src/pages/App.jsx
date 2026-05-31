@@ -22,6 +22,7 @@ function App() {
             const res = await axios.get(
                 `${import.meta.env.VITE_SEARCH_URL}?search=${title}`,
             );
+            console.log(res);
             setBrowse(res.data);
         } catch (err) {
             console.error(err);
@@ -71,6 +72,7 @@ function App() {
                         return (
                             <div key={videoObject.id}>
                                 <div>
+                                    <img src={videoObject.thumbnailPath}></img>
                                     <p>{videoObject.title}</p>
                                     <p>{videoObject.description}</p>
                                     <p>{videoObject.username}</p>
