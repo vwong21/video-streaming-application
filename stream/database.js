@@ -10,11 +10,11 @@ const pool = mysql
     })
     .promise();
 
-const getVideo = async (title) => {
+const getVideo = async (id) => {
     const [rows] = await pool.query(
         `
-    SELECT videoPath FROM videos WHERE title = ?`,
-        [title],
+    SELECT videoPath FROM videos WHERE id = ?`,
+        [id],
     );
     return rows[0];
 };

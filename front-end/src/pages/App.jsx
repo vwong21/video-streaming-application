@@ -8,7 +8,7 @@ function App() {
     const [upload, setUpload] = useState(false);
 
     const [title, setTitle] = useState("");
-    const [videoTitle, setVideoTitle] = useState(null);
+    const [videoId, setVideoId] = useState(null);
 
     const [browse, setBrowse] = useState([]);
 
@@ -27,6 +27,10 @@ function App() {
         } catch (err) {
             console.error(err);
         }
+    };
+
+    const handleClick = async (id) => {
+        setVideoId(id);
     };
 
     return (
@@ -71,7 +75,9 @@ function App() {
                     {browse.map((videoObject) => {
                         return (
                             <div key={videoObject.id}>
-                                <div>
+                                <div
+                                    onClick={() => handleClick(videoObject.id)}
+                                >
                                     <img
                                         src={`${import.meta.env.VITE_THUMBNAIL_URL_BASE}${videoObject.thumbnailPath}`}
                                     ></img>
@@ -84,7 +90,7 @@ function App() {
                     })}
                 </section>
                 <section className="video">
-                    {videoTitle && <VideoPlayer videoName={videoTitle} />}
+                    {videoId && <VideoPlayer videoId={videoId} />}
                 </section>
             </main>
         </div>

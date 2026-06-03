@@ -9,10 +9,10 @@ app.use(express.json());
 app.use("/thumbnails", express.static(process.env.THUMBNAILS_PATH));
 
 app.get("/stream", async (req, res) => {
-    console.log(req.query.title);
-    const filePathObject = await getVideo(req.query.title);
+    console.log(req.query.id);
+    const filePathObject = await getVideo(req.query.id);
     console.log(filePathObject);
-    const filePath = filePathObject.filePath;
+    const filePath = filePathObject.videoPath;
     console.log(filePath);
     if (filePath == undefined) {
         return res.status(404).json({ message: "could not find video" });
