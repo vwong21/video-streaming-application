@@ -25,7 +25,7 @@ const createThumbnail = (videoPath) => {
     return new Promise((resolve, reject) => {
         const filename = `${uuidv4()}.jpg`;
         const outputPath = path.join(thumbnailsPath, filename);
-
+        const urlPath = `/thumbnails/${filename}`;
         execFile(
             "ffmpeg",
             [
@@ -41,7 +41,7 @@ const createThumbnail = (videoPath) => {
             ],
             (error) => {
                 if (error) return reject(error);
-                resolve(filename);
+                resolve(urlPath);
             },
         );
     });
@@ -57,6 +57,7 @@ router.post("/", upload.single("video"), jwtAuth, async (req, res) => {
     const videoPath = `${videosPath}${req.body.title}.mp4`;
     const username = req.body.username;
     const thumbnail = await createThumbnail(videoPath);
+    console.log(thumbnail);
     const video = await createVideo(
         title,
         description,

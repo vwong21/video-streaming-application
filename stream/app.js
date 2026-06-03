@@ -6,6 +6,7 @@ const app = express();
 const { getVideo, searchVideos } = require(process.env.DB_PATH);
 app.use(cors());
 app.use(express.json());
+app.use("/thumbnails", express.static(process.env.THUMBNAILS_PATH));
 
 app.get("/stream", async (req, res) => {
     console.log(req.query.title);

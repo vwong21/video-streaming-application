@@ -13,7 +13,7 @@ const pool = mysql
 const getVideo = async (title) => {
     const [rows] = await pool.query(
         `
-    SELECT filePath FROM videos WHERE title = ?`,
+    SELECT videoPath FROM videos WHERE title = ?`,
         [title],
     );
     return rows[0];

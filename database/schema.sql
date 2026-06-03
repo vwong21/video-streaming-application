@@ -12,7 +12,8 @@ CREATE TABLE videos (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     description VARCHAR(255),
-    filePath VARCHAR(255) NOT NULL,
+    videoPath VARCHAR(255) NOT NULL,
+    thumbnailPath VARCHAR(255) NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     username VARCHAR(255),
     FOREIGN KEY (username) REFERENCES users(username)
