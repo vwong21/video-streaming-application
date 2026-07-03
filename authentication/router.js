@@ -15,11 +15,11 @@ router.post("/login", async (req, res) => {
         if (password != userPassword.userPassword) {
             return res.status(401).json({ message: "unauthorized" });
         }
-        accessToken = jwt.sign({ username }, process.env.JWT_SECRET, {
+        const accessToken = jwt.sign({ username }, process.env.JWT_SECRET, {
             expiresIn: "1800s",
         });
         console.log(accessToken);
-        res.status(201).json({
+        res.status(200).json({
             message: "User validated successfully",
             accessToken: accessToken,
         });
@@ -39,6 +39,10 @@ router.post("/register", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
         console.error(error);
     }
+});
+
+router.get("/validate", authenticateToken, (req, res) => {
+    res.status(200).json({ valid: true, username: req.user.username });
 });
 
 module.exports = router;

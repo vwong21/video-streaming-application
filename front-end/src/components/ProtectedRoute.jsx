@@ -12,7 +12,20 @@ const ProtectedRoute = ({ children }) => {
                 setAuth(false);
                 return;
             }
-            setAuth(true);
+
+            try {
+                const res = await axios.get(
+                    import.meta.env.VITE_VALIDATE_USER_URL,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    },
+                );
+                setAuth(res.status === 200);
+            } catch (error) {
+                setAuth(false);
+            }
         };
 
         checkAuth();

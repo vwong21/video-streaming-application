@@ -1,27 +1,24 @@
-const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv')
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
-dotenv.config()
+dotenv.config();
 
 const authenticateToken = (req, res, next) => {
-    authHeader = req.headers["authorization"]
-    const token = authHeader.split(' ')[1]
-    console.log(token)
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
 
-    if (token == null) {
-        return res.json({message: "Invalid Token"}).status(401)
+    if (!token) {
+        return res.status(401).json({ message: "Invalid Token" });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-
         if (err) {
-            return res.json({message: "Invalid Token"}).status(403)
+            return res.status(403).json({ message: "Invalid Token" });
         }
 
-        req.user = user
+        req.user = user;
+        next();
+    });
+};
 
-        next()
-    })
-}
-
-module.exports = authenticateToken
+module.exports = authenticateToken;
