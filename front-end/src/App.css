@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Roboto';
-    src: url('../public/Roboto-Regular.ttf');
+    font-family: "Roboto";
+    src: url("../public/Roboto-Regular.ttf");
 }
 
 * {
@@ -8,13 +8,15 @@
     margin: 0;
     padding: 0;
     font-family: Roboto;
-    border: none;;
+    border: none;
     font-size: 1rem;
 }
 
-html, body, #root {
+html,
+body,
+#root {
     height: 100%;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
 }
 
 #root {
@@ -31,10 +33,9 @@ html, body, #root {
 
 header {
     width: 100%;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     display: flex;
     justify-content: center;
-    
 }
 
 h1 {
@@ -58,22 +59,22 @@ main {
 .video {
     border-radius: 5px;
     background-color: #ffffff;
-    -webkit-box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35); 
-    box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35);
+    -webkit-box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
+    box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
 }
 
 form {
     background-color: #ffffff;
-    -webkit-box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35); 
-    box-shadow: 0px 4px 4px 0px rgba(51,51,51,0.35);
+    -webkit-box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
+    box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
 }
 
 input {
-    border: 1px solid rgba(51, 51, 51, 0.35); 
+    border: 1px solid rgba(51, 51, 51, 0.35);
 }
 
 button {
-    background-color: #008CBA;
+    background-color: #008cba;
     color: #ffffff;
     cursor: pointer;
 }
@@ -86,7 +87,7 @@ button {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5)
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 #upload_file_container {
@@ -96,7 +97,7 @@ button {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    z-index: 9999; 
+    z-index: 9999;
 }
 
 #close_popup {
@@ -110,6 +111,21 @@ button {
     flex-direction: row;
     justify-content: center;
     width: 100%;
+}
+
+#results_container {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.video_container {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.video_details_container {
+    display: flex;
+    flex-flow: column wrap;
 }
 
 /* 1080p screens */
@@ -160,7 +176,7 @@ button {
     .video {
         width: 67%;
     }
-    
+
     #search_vid input {
         width: 80%;
     }
@@ -168,7 +184,6 @@ button {
     #search_vid button {
         width: 20%;
     }
-
 }
 
 /* 2K screens */
@@ -216,7 +231,7 @@ button {
     #search_vid {
         font-size: 1.5em;
     }
-    
+
     #search_vid input {
         width: 80%;
     }
@@ -231,11 +246,7 @@ button {
     /* Styles for 4K screens */
 }
 
-
-
-#search_vid input, #search_vid button {
+#search_vid input,
+#search_vid button {
     padding: 0.5em;
 }
-
-
-

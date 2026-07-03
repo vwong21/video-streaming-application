@@ -9,6 +9,9 @@ function App() {
 
     const [title, setTitle] = useState("");
     const [videoId, setVideoId] = useState(null);
+    const [videoTitle, setVideoTitle] = useState(null);
+    const [videoDescription, setVideoDescription] = useState(null);
+    const [videoUsername, setVideoUsername] = useState(null);
 
     const [browse, setBrowse] = useState([]);
 
@@ -29,8 +32,11 @@ function App() {
         }
     };
 
-    const handleClick = async (id) => {
-        setVideoId(id);
+    const handleClick = async (videoObject) => {
+        setVideoId(videoObject.id);
+        setVideoTitle(videoObject.title);
+        setVideoDescription(videoObject.description);
+        setVideoUsername(videoObject.username);
     };
 
     return (
@@ -72,25 +78,39 @@ function App() {
                         />
                         <button type="submit">GO</button>
                     </form>
-                    {browse.map((videoObject) => {
-                        return (
-                            <div key={videoObject.id}>
+                    <div id="results_container">
+                        {browse.map((videoObject) => {
+                            return (
                                 <div
-                                    onClick={() => handleClick(videoObject.id)}
+                                    key={videoObject.id}
+                                    onClick={() => handleClick(videoObject)}
+                                    className="video_container"
                                 >
                                     <img
                                         src={`${import.meta.env.VITE_THUMBNAIL_URL_BASE}${videoObject.thumbnailPath}`}
                                     ></img>
-                                    <p>{videoObject.title}</p>
-                                    <p>{videoObject.description}</p>
-                                    <p>{videoObject.username}</p>
+                                    <div className="video_details_container">
+                                        <p className="video_title">
+                                            {videoObject.title}
+                                        </p>
+                                        <p className="video_username">
+                                            {videoObject.username}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </section>
                 <section className="video">
-                    {videoId && <VideoPlayer videoId={videoId} />}
+                    {videoId && (
+                        <div>
+                            <VideoPlayer videoId={videoId} />
+                            <p>{videoTitle}</p>
+                            <p>{videoDescription}</p>
+                            <p>{videoUsername}</p>
+                        </div>
+                    )}
                 </section>
             </main>
         </div>
