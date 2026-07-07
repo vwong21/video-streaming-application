@@ -254,6 +254,11 @@ button {
         height: 25em;
     }
 
+    form {
+        height: 6.5rem;
+        padding: 2rem;
+    }
+
     .browse {
         width: 20%;
     }
@@ -272,6 +277,10 @@ button {
 
     #search_vid button {
         width: 20%;
+    }
+
+    #video_player_container {
+        padding-top: 2em;
     }
 }
 
