@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../App.css";
 import VideoPlayer from "../components/VideoPlayer";
 import Upload from "./Upload";
@@ -31,6 +31,8 @@ function App() {
             console.error(err);
         }
     };
+
+    useEffect(() => {}, videoId);
 
     const handleClick = async (videoObject) => {
         setVideoId(videoObject.id);
@@ -106,25 +108,28 @@ function App() {
                 <section className="video">
                     {videoId && (
                         <div id="video_player_container">
-                            <VideoPlayer videoId={videoId} />
+                            <VideoPlayer key={videoId} videoId={videoId} />
                             <p
                                 id="video_player_title"
                                 className="video_player_content"
                             >
                                 {videoTitle}
                             </p>
-                            <p
-                                id="video_player_description"
-                                className="video_player_content"
-                            >
-                                {videoDescription}
-                            </p>
-                            <p
-                                id="video_player_username"
-                                className="video_player_content"
-                            >
-                                {videoUsername}
-                            </p>
+                            <div id="details_container">
+                                <p
+                                    id="video_player_username"
+                                    className="video_player_content"
+                                >
+                                    {videoUsername}
+                                </p>
+
+                                <p
+                                    id="video_player_description"
+                                    className="video_player_content"
+                                >
+                                    {videoDescription}
+                                </p>
+                            </div>
                         </div>
                     )}
                 </section>
