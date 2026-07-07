@@ -29,6 +29,7 @@ body,
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 3rem;
 }
 
 header {
@@ -57,10 +58,11 @@ main {
 }
 
 .video {
-    border-radius: 5px;
     background-color: #ffffff;
     -webkit-box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
     box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
+    display: flex;
+    justify-content: center;
 }
 
 form {
@@ -121,27 +123,62 @@ button {
 .video_container {
     display: flex;
     flex-flow: row nowrap;
+    padding: 1rem 0 1rem 0;
+    gap: 1rem;
 }
 
 .video_details_container {
+    width: 50%;
     display: flex;
     flex-flow: column wrap;
+    gap: 0.5rem;
+}
+
+.video_title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.thumbnail {
+    width: 60%;
+    border-radius: 0.5rem;
+}
+
+#video_player_container {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 95%;
+    gap: 1rem;
+}
+
+#video_player {
+    width: 100%;
+    border-radius: 0.5em;
+}
+
+.video_player_content {
+    width: 100%;
+}
+
+#video_player_title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
 }
 
 /* 1080p screens */
 @media screen and (min-width: 1920px) and (max-width: 2559px) {
     /* Styles for 1080p screens */
-    #app {
-        gap: 5rem;
-    }
 
     #header-container {
-        width: 63%;
+        width: 95%;
     }
 
     main {
-        width: 63%;
-        gap: 2.5rem;
+        width: 95%;
+        gap: 2.5em;
     }
 
     h1 {
@@ -149,13 +186,14 @@ button {
     }
 
     header {
-        padding: 3em 0 3em 0;
+        padding: 1.5em 0 1.5em 0;
     }
 
     .browse {
         display: flex;
         flex-direction: column;
         height: auto;
+        gap: 0.5rem;
     }
 
     form {
@@ -184,22 +222,22 @@ button {
     #search_vid button {
         width: 20%;
     }
+
+    #video_player_container {
+        padding-top: 1.5em;
+    }
 }
 
 /* 2K screens */
 @media screen and (min-width: 2560px) and (max-width: 3839px) {
     /* Styles for 2K screens */
-    #app {
-        gap: 5rem;
-    }
-
     #header-container {
-        width: 50%;
+        width: 95%;
     }
 
     main {
-        width: 50%;
-        gap: 3rem;
+        width: 95%;
+        gap: 2.5em;
     }
 
     h1 {
@@ -207,11 +245,7 @@ button {
     }
 
     header {
-        padding: 3em 5em 3em 5em;
-    }
-
-    section {
-        padding: 3em 5em 3em 5em;
+        padding: 1.5em 0 1.5em 0;
     }
 
     #upload_file_container {

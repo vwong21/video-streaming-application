@@ -12,7 +12,7 @@ const VideoPlayer = ({ videoId }) => {
     }, []);
 
     return (
-        <video ref={videoRef} width="320" height="240" controls autoPlay>
+        <video ref={videoRef} controls autoPlay id="video_player">
             <source src={`${streamURL}?id=${videoId}`} type="video/mp4" />
             Your browser does not support the video tag.
         </video>

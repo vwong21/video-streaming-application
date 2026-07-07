@@ -87,6 +87,7 @@ function App() {
                                     className="video_container"
                                 >
                                     <img
+                                        className="thumbnail"
                                         src={`${import.meta.env.VITE_THUMBNAIL_URL_BASE}${videoObject.thumbnailPath}`}
                                     ></img>
                                     <div className="video_details_container">
@@ -104,11 +105,26 @@ function App() {
                 </section>
                 <section className="video">
                     {videoId && (
-                        <div>
+                        <div id="video_player_container">
                             <VideoPlayer videoId={videoId} />
-                            <p>{videoTitle}</p>
-                            <p>{videoDescription}</p>
-                            <p>{videoUsername}</p>
+                            <p
+                                id="video_player_title"
+                                className="video_player_content"
+                            >
+                                {videoTitle}
+                            </p>
+                            <p
+                                id="video_player_description"
+                                className="video_player_content"
+                            >
+                                {videoDescription}
+                            </p>
+                            <p
+                                id="video_player_username"
+                                className="video_player_content"
+                            >
+                                {videoUsername}
+                            </p>
                         </div>
                     )}
                 </section>
