@@ -49,6 +49,7 @@ function App() {
                         <div onClick={toggleUpload} id="close_popup">
                             Close
                         </div>
+                        <h1>React File Upload</h1>
                         <div id="upload_file">
                             <Upload />
                         </div>
@@ -77,6 +78,7 @@ function App() {
                             name="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
+                            id="search_input"
                         />
                         <button type="submit">GO</button>
                     </form>

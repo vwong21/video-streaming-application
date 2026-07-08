@@ -35,27 +35,43 @@ const Upload = () => {
 
     return (
         <>
-            <form onSubmit={submitForm}>
-                <h1>React File Upload</h1>
-                <label htmlFor="title">Title</label>
+            <form onSubmit={submitForm} id="upload_vid">
+                <div id="upload_title_container" className="upload_containers">
+                    <input
+                        type="text"
+                        name="title"
+                        placeholder="Title"
+                        className="upload_inputs"
+                        value={title || ""}
+                        onChange={(e) => {
+                            setTitle(e.target.value);
+                        }}
+                    />
+                </div>
+                <div
+                    id="upload_description_container"
+                    className="upload_containers"
+                >
+                    <input
+                        type="text"
+                        name="description"
+                        placeholder="Description"
+                        className="upload_inputs"
+                        value={description || null}
+                        onChange={(e) => {
+                            setDescription(e.target.value);
+                        }}
+                    />
+                </div>
                 <input
-                    type="text"
-                    name="title"
-                    value={title || ""}
-                    onChange={(e) => {
-                        setTitle(e.target.value);
-                    }}
+                    type="file"
+                    onChange={handleChange}
+                    id="upload_video_file"
                 />
-                <input type="file" onChange={handleChange} />
-                <input
-                    type="text"
-                    name="description"
-                    value={description || null}
-                    onChange={(e) => {
-                        setDescription(e.target.value);
-                    }}
-                />
-                <button type="submit">Upload</button>
+
+                <button type="submit" id="upload_button">
+                    Upload
+                </button>
             </form>
         </>
     );

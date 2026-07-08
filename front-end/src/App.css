@@ -65,14 +65,10 @@ main {
     justify-content: center;
 }
 
-form {
+#search_vid {
     background-color: #ffffff;
     -webkit-box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
     box-shadow: 0px 4px 4px 0px rgba(51, 51, 51, 0.35);
-}
-
-input {
-    border: 1px solid rgba(51, 51, 51, 0.35);
 }
 
 button {
@@ -100,6 +96,7 @@ button {
     transform: translate(-50%, -50%);
     background-color: white;
     z-index: 9999;
+    height: 100%;
 }
 
 #close_popup {
@@ -113,6 +110,10 @@ button {
     flex-direction: row;
     justify-content: center;
     width: 100%;
+}
+
+#search_input {
+    border: 1px solid rgba(51, 51, 51, 0.35);
 }
 
 #results_container {
@@ -186,6 +187,86 @@ button {
     font-weight: 900;
 }
 
+.upload_containers {
+    width: 50%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    position: relative;
+}
+
+#upload_vid {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1em;
+}
+
+#upload_video_file {
+    all: unset;
+}
+
+.upload_inputs {
+    padding: 0.25em;
+    font-size: 1.5rem;
+    border: none;
+    border-bottom: 0.5px solid black;
+    outline: none;
+    width: 100%;
+}
+
+.upload_inputs:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.upload_containers::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1.5px;
+    background: black;
+
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+}
+
+.upload_containers:focus-within::after {
+    transform: scaleX(1);
+}
+
+#upload_video_file {
+    font-size: 1.25rem;
+}
+
+#upload_button {
+    width: 25%;
+    padding: 0.5em;
+    border-radius: 0.5em;
+
+    background-color: #008cba;
+    color: white;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+
+    border: none;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+#upload_button:hover {
+    background-color: #006f94;
+    transform: translateY(-2px);
+}
+
+#upload_button:active {
+    transform: translateY(0);
+}
+
 /* 1080p screens */
 @media screen and (min-width: 1920px) and (max-width: 2559px) {
     /* Styles for 1080p screens */
@@ -214,7 +295,7 @@ button {
         gap: 0.5rem;
     }
 
-    form {
+    #search_vid {
         height: 6.5rem;
         padding: 2rem;
     }
@@ -272,7 +353,7 @@ button {
         height: 25em;
     }
 
-    form {
+    #search_vid {
         height: 6.5rem;
         padding: 2rem;
     }
