@@ -4,9 +4,20 @@ const cors = require("cors");
 const fs = require("fs");
 const app = express();
 const { getVideo, searchVideos } = require(process.env.DB_PATH);
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+
+const client = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+});
+
 app.use(cors());
 app.use(express.json());
-app.use("/thumbnails", express.static(process.env.THUMBNAILS_PATH));
+// app.use("/thumbnails", express.static(process.env.THUMBNAILS_PATH));
 
 app.get("/stream", async (req, res) => {
     console.log(req.query.id);
@@ -179,11 +190,27 @@ app.get("/search", async (req, res) => {
     try {
         console.log("Searching database...");
         const results = await searchVideos(keywords);
-        console.log("Found Results:", results);
-        res.json(results);
+        console.log("Found Results...");
+        const resultsWithThumbnails = [];
+        for (const video of results) {
+            const thumbnailUrl = await getSignedUrl(
+                client,
+                new GetObjectCommand({
+                    Bucket: process.env.AWS_THUMBNAIL_BUCKET,
+                    Key: video.thumbnailPath,
+                }),
+                { expiresIn: 3600 },
+            );
+
+            resultsWithThumbnails.push({ ...video, thumbnailUrl });
+        }
+        console.log(resultsWithThumbnails);
+        res.status(200).json(resultsWithThumbnails);
     } catch (err) {
         res.status(500).json({ message: "search failed", error: err.message });
     }
 });
+
+app.get("/thumbnails/:id", (req, res) => {});
 
 app.listen(3003);

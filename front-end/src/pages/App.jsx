@@ -92,7 +92,7 @@ function App() {
                                 >
                                     <img
                                         className="thumbnail"
-                                        src={`${import.meta.env.VITE_THUMBNAIL_URL_BASE}${videoObject.thumbnailPath}`}
+                                        src={`${videoObject.thumbnailUrl}`}
                                     ></img>
                                     <div className="video_details_container">
                                         <p className="video_title">
