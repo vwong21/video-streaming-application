@@ -23,40 +23,30 @@ app.get("/stream", async (req, res) => {
     console.log(req.query.id);
     const filePathObject = await getVideo(req.query.id);
     console.log(filePathObject);
-    const filePath = filePathObject.videoPath;
-    console.log(filePath);
-    if (filePath == undefined) {
+    const videoPath = filePathObject.videoPath;
+
+    if (videoPath == undefined) {
         return res.status(404).json({ message: "could not find video" });
     }
-    const stat = fs.statSync(filePath);
-    const fileSize = stat.size;
-    const range = req.headers.range;
 
-    if (range) {
-        const parts = range.replace(/bytes=/, "").split("-");
-        const start = parseInt(parts[0], 10);
-        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+    try {
+        const videoUrl = await getSignedUrl(
+            client,
+            new GetObjectCommand({
+                Bucket: process.env.AWS_VIDEO_BUCKET,
+                Key: videoPath,
+            }),
+            { expiresIn: 3600 },
+        );
 
-        const chunkSize = end - start + 1;
-        const file = fs.createReadStream(filePath, { start, end });
-        const head = {
-            "Content-Range": `bytes ${start} - ${end}/${fileSize}`,
-            "Accept-Ranges": "bytes",
-            "Content-Length": chunkSize,
-            "Content-Type": "video/mp4",
-        };
-        res.writeHead(206, head);
-        file.pipe(res);
-    } else {
-        const head = {
-            "Content-Length": fileSize,
-            "Content-Type": "video/mp4",
-        };
-        res.writeHead(200, head);
-        fs.createReadStream(filePath).pipe(res);
+        res.status(200).json({ url: videoUrl });
+    } catch (err) {
+        res.status(500).json({
+            message: "failed to get video url",
+            error: err.message,
+        });
     }
 });
-
 app.get("/search", async (req, res) => {
     const searchQuery = req.query.search;
     console.log("Searching for:", searchQuery);

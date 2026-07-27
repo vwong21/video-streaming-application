@@ -1,19 +1,38 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 const VideoPlayer = ({ videoId }) => {
-    console.log(videoId);
     const videoRef = useRef(null);
     const streamURL = import.meta.env.VITE_STREAM_URL;
+    const [videoUrl, setVideoUrl] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (videoRef.current) {
-            // Any setup logic for the video player can go here
-        }
-    }, []);
+        setVideoUrl(null);
+        setError(null);
+
+        fetch(`${streamURL}?id=${videoId}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("failed to load video");
+                return res.json();
+            })
+            .then((data) => setVideoUrl(data.url))
+            .catch((err) => {
+                console.error(err);
+                setError(err.message);
+            });
+    }, [videoId, streamURL]);
+
+    if (error) return <div>Could not load video.</div>;
+    if (!videoUrl) return <div>Loading...</div>;
 
     return (
-        <video ref={videoRef} controls autoPlay id="video_player">
-            <source src={`${streamURL}?id=${videoId}`} type="video/mp4" />
+        <video
+            ref={videoRef}
+            src={videoUrl}
+            controls
+            autoPlay
+            id="video_player"
+        >
             Your browser does not support the video tag.
         </video>
     );
