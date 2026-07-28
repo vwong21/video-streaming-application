@@ -77,9 +77,10 @@ router.post("/", jwtAuth, upload.single("video"), async (req, res) => {
 
     const title = req.body.title;
     const description = req.body.description;
-    const username = req.body.username;
+    const username = req.user.username;
     const tempVideoPath = req.file.path;
     let tempThumbnailPath;
+    console.log(`Location: username var in post endpoint. Value: ${username}`);
 
     try {
         tempThumbnailPath = await createThumbnail(tempVideoPath);

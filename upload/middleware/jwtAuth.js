@@ -10,6 +10,7 @@ const jwtAuth = (req, res, next) => {
     try {
         const decoded = jwt.verify(authorization, process.env.JWT_SECRET);
         req.user = { username: decoded.username };
+        console.log(`Location: Middleware. Value: ${req.user.username}`);
         next();
     } catch (err) {
         return res.status(401).json({ error: "Invalid token" });

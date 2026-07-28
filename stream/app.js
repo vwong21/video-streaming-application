@@ -17,7 +17,6 @@ const client = new S3Client({
 
 app.use(cors());
 app.use(express.json());
-// app.use("/thumbnails", express.static(process.env.THUMBNAILS_PATH));
 
 app.get("/stream", async (req, res) => {
     console.log(req.query.id);
