@@ -115,4 +115,13 @@ router.post("/", jwtAuth, upload.single("video"), async (req, res) => {
     }
 });
 
+router.delete("/:id", jwtAuth, async (req, res) => {
+    const videoId = req.params.id;
+    const videoToDelete = await getVideo(videoId);
+    const videoPath = videoToDelete.videoPath;
+    const thumbnailPath = videoToDelete.thumbnailPath;
+    console.log(`videoPath: ${videoPath}`);
+    console.log(`thumbnailPath: ${thumbnailPath}`);
+});
+
 module.exports = router;
