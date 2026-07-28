@@ -4,13 +4,17 @@ const express = require("express");
 const multer = require("multer");
 const jwtAuth = require("../middleware/jwtAuth");
 const router = express.Router();
-const { getVideo, createVideo } = require(process.env.DB_PATH);
+const { getVideo, createVideo, deleteVideo } = require(process.env.DB_PATH);
 const { execFile } = require("child_process");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const os = require("os");
 const fs = require("fs");
-const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const {
+    S3Client,
+    PutObjectCommand,
+    DeleteObjectsCommand,
+} = require("@aws-sdk/client-s3");
 
 const s3 = new S3Client({
     region: process.env.AWS_REGION,
@@ -117,11 +121,40 @@ router.post("/", jwtAuth, upload.single("video"), async (req, res) => {
 
 router.delete("/:id", jwtAuth, async (req, res) => {
     const videoId = req.params.id;
-    const videoToDelete = await getVideo(videoId);
-    const videoPath = videoToDelete.videoPath;
-    const thumbnailPath = videoToDelete.thumbnailPath;
-    console.log(`videoPath: ${videoPath}`);
-    console.log(`thumbnailPath: ${thumbnailPath}`);
+
+    try {
+        const videoToDelete = await getVideo(videoId);
+        const videoPath = videoToDelete.videoPath;
+        const thumbnailPath = videoToDelete.thumbnailPath;
+
+        console.log(`videoPath: ${videoPath}`);
+        console.log(`thumbnailPath: ${thumbnailPath}`);
+
+        const deleteBucketParams = {
+            Bucket: BUCKET,
+            Delete: {
+                Objects: [{ Key: videoPath }, { Key: thumbnailPath }],
+                Quiet: false,
+            },
+        };
+
+        const deleteObjects = await s3.send(
+            new DeleteObjectsCommand(deleteBucketParams),
+        );
+
+        const dbResult = await deleteVideo(videoId);
+
+        if (dbResult.affectedRows === 0) {
+            console.warn(
+                `No DB row found for video id ${videoId}, but S3 objects were deleted`,
+            );
+        }
+
+        res.status(200).json({ success: true, deleted: deleteObjects.Deleted });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Delete failed" });
+    }
 });
 
 module.exports = router;

@@ -43,7 +43,13 @@ const createVideo = async (
     return getVideo(id);
 };
 
+const deleteVideo = async (id) => {
+    const [result] = await pool.query(`DELETE FROM videos WHERE id=?`, [id]);
+    return result;
+};
+
 module.exports = {
     getVideo,
     createVideo,
+    deleteVideo,
 };
