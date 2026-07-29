@@ -47,25 +47,25 @@ h1 {
     cursor: pointer;
 }
 
-#header-container {
+#header_container {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#icons-container {
+#icons_container {
     display: flex;
     flex-flow: row nowrap;
     gap: 1.5rem;
     align-items: center;
 }
 
-#icons-container h2 {
+#icons_container h2 {
     text-align: center;
 }
 
-#profile-svg {
+#profile_svg {
     width: 2rem;
     cursor: pointer;
 }
@@ -291,7 +291,7 @@ button {
 @media screen and (min-width: 1920px) and (max-width: 2559px) {
     /* Styles for 1080p screens */
 
-    #header-container {
+    #header_container {
         width: 95%;
     }
 
@@ -350,7 +350,7 @@ button {
 /* 2K screens */
 @media screen and (min-width: 2560px) and (max-width: 3839px) {
     /* Styles for 2K screens */
-    #header-container {
+    #header_container {
         width: 95%;
     }
 

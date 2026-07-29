@@ -60,21 +60,21 @@ function App() {
             )}
 
             <header>
-                <div id="header-container">
+                <div id="header_container">
                     <h1 onClick={() => navigate("/")} id="title">
                         Stream
                         <span style={{ color: "#008CBA", fontSize: "3rem" }}>
                             Shelf
                         </span>
                     </h1>
-                    <div id="icons-container">
+                    <div id="icons_container">
                         <h2 onClick={toggleUpload} id="upload_header">
                             Upload
                         </h2>
                         <img
                             src="../../public/profile.svg"
                             alt=""
-                            id="profile-svg"
+                            id="profile_svg"
                             onClick={() => navigate("/profile")}
                         />
                     </div>

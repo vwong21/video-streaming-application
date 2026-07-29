@@ -38,7 +38,16 @@ const searchVideos = async (keywords) => {
     return rows;
 };
 
+const getVideosByUsername = async (username) => {
+    const [rows] = await pool.query(
+        `SELECT * FROM videos WHERE username=?`,
+        username,
+    );
+    return rows;
+};
+
 module.exports = {
     getVideo,
     searchVideos,
+    getVideosByUsername,
 };

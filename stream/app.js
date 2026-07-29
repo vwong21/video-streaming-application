@@ -6,6 +6,8 @@ const app = express();
 const { getVideo, searchVideos } = require(process.env.DB_PATH);
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+const jwtAuth = require("./jwtAuth");
+const { getVideosByUsername } = require("./database");
 
 const client = new S3Client({
     region: process.env.AWS_REGION,
@@ -200,6 +202,11 @@ app.get("/search", async (req, res) => {
     }
 });
 
-app.get("/thumbnails/:id", (req, res) => {});
+app.get("/videos", jwtAuth, async (req, res) => {
+    const user = req.user.username;
+    const videos = await getVideosByUsername(user);
+    console.log(videos);
+    res.status(200).json({ videos: videos });
+});
 
 app.listen(3003);
