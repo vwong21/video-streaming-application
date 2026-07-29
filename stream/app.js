@@ -204,9 +204,26 @@ app.get("/search", async (req, res) => {
 
 app.get("/videos", jwtAuth, async (req, res) => {
     const user = req.user.username;
-    const videos = await getVideosByUsername(user);
-    console.log(videos);
-    res.status(200).json({ videos: videos });
+    try {
+        const videos = await getVideosByUsername(user);
+        const resultsWithThumbnails = [];
+        for (const video of videos) {
+            const thumbnailUrl = await getSignedUrl(
+                client,
+                new GetObjectCommand({
+                    Bucket: process.env.AWS_THUMBNAIL_BUCKET,
+                    Key: video.thumbnailPath,
+                }),
+                { expiresIn: 3600 },
+            );
+
+            resultsWithThumbnails.push({ ...video, thumbnailUrl });
+        }
+        res.status(200).json({ videos: resultsWithThumbnails });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ Message: "Couldn't find videos", Error: err });
+    }
 });
 
 app.listen(3003);

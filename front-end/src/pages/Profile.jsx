@@ -1,10 +1,31 @@
 import { useNavigate } from "react-router-dom";
 import Upload from "./Upload";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Profile() {
     const [upload, setUpload] = useState(false);
     const navigate = useNavigate();
+    const [videos, setVideos] = useState([]);
+
+    useEffect(() => {
+        getVideos();
+    }, []);
+
+    const getVideos = async () => {
+        const jwtToken = localStorage.getItem("token");
+        console.log("token:", jwtToken);
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_VIDEOS_URL}`, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
+            setVideos(res.data.videos);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     const toggleUpload = () => {
         setUpload(!upload);
@@ -46,6 +67,20 @@ function Profile() {
             </header>
             <main id="profile-main">
                 <h2 id="your-videos-title">Your Videos:</h2>
+                {videos &&
+                    videos.map((video) => {
+                        return (
+                            <div key={video.id} className="video_container">
+                                <img
+                                    className="thumbnail"
+                                    src={`${video.thumbnailUrl}`}
+                                ></img>
+                                <div className="video_details_container">
+                                    <p className="video_title">{video.title}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
             </main>
         </div>
     );
