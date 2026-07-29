@@ -57,20 +57,16 @@ function Profile() {
                         <h2 onClick={toggleUpload} id="upload_header">
                             Upload
                         </h2>
-                        <img
-                            src="../../public/profile.svg"
-                            alt=""
-                            id="profile_svg"
-                        />
+                        <img src="/profile.svg" alt="" id="profile_svg" />
                     </div>
                 </div>
             </header>
-            <main id="profile-main">
-                <h2 id="your-videos-title">Your Videos:</h2>
-                {videos &&
-                    videos.map((video) => {
+            <main id="profile_main">
+                <h2 id="your_videos_title">Your Videos:</h2>
+                <div className="profile_video_container">
+                    {videos.map((video) => {
                         return (
-                            <div key={video.id} className="video_container">
+                            <div key={video.id} className="profile_video_card">
                                 <img
                                     className="thumbnail"
                                     src={`${video.thumbnailUrl}`}
@@ -81,6 +77,7 @@ function Profile() {
                             </div>
                         );
                     })}
+                </div>
             </main>
         </div>
     );

@@ -287,6 +287,22 @@ button {
     transform: translateY(0);
 }
 
+#profile_main {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.profile_video_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.profile_video_card {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
 /* 1080p screens */
 @media screen and (min-width: 1920px) and (max-width: 2559px) {
     /* Styles for 1080p screens */

@@ -72,7 +72,7 @@ function App() {
                             Upload
                         </h2>
                         <img
-                            src="../../public/profile.svg"
+                            src="/profile.svg"
                             alt=""
                             id="profile_svg"
                             onClick={() => navigate("/profile")}
