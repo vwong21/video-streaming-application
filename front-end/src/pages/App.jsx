@@ -3,8 +3,10 @@ import "../App.css";
 import VideoPlayer from "../components/VideoPlayer";
 import Upload from "./Upload";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+    const navigate = useNavigate();
     const [upload, setUpload] = useState(false);
 
     const [title, setTitle] = useState("");
@@ -59,15 +61,23 @@ function App() {
 
             <header>
                 <div id="header-container">
-                    <h1>
+                    <h1 onClick={() => navigate("/")} id="title">
                         Stream
                         <span style={{ color: "#008CBA", fontSize: "3rem" }}>
                             Shelf
                         </span>
                     </h1>
-                    <h2 onClick={toggleUpload} id="upload_header">
-                        Upload
-                    </h2>
+                    <div id="icons-container">
+                        <h2 onClick={toggleUpload} id="upload_header">
+                            Upload
+                        </h2>
+                        <img
+                            src="../../public/profile.svg"
+                            alt=""
+                            id="profile-svg"
+                            onClick={() => navigate("/profile")}
+                        />
+                    </div>
                 </div>
             </header>
             <main>

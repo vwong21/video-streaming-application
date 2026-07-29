@@ -43,11 +43,31 @@ h1 {
     font-weight: 900;
 }
 
+#title {
+    cursor: pointer;
+}
+
 #header-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#icons-container {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+#icons-container h2 {
+    text-align: center;
+}
+
+#profile-svg {
+    width: 2rem;
+    cursor: pointer;
 }
 
 main {
