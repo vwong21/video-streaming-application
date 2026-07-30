@@ -3,7 +3,7 @@ import "../App.css";
 import VideoPlayer from "../components/VideoPlayer";
 import Upload from "./Upload";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function App() {
     const navigate = useNavigate();
@@ -16,6 +16,18 @@ function App() {
     const [videoUsername, setVideoUsername] = useState(null);
 
     const [browse, setBrowse] = useState([]);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.video) {
+            const video = location.state.video;
+            setVideoId(video.id);
+            setVideoTitle(video.title);
+            setVideoDescription(video.description);
+            setVideoUsername(video.username);
+        }
+    }, [location.state]);
 
     const toggleUpload = () => {
         setUpload(!upload);
@@ -34,7 +46,7 @@ function App() {
         }
     };
 
-    useEffect(() => {}, videoId);
+    useEffect(() => {}, [videoId]);
 
     const handleClick = async (videoObject) => {
         setVideoId(videoObject.id);
@@ -53,7 +65,7 @@ function App() {
                         </div>
                         <h1>React File Upload</h1>
                         <div id="upload_file">
-                            <Upload />
+                            <Upload onSuccess={toggleUpload} />
                         </div>
                     </div>
                 </div>
@@ -80,7 +92,7 @@ function App() {
                     </div>
                 </div>
             </header>
-            <main>
+            <main id="app_main">
                 <section className="browse">
                     <form onSubmit={handleSubmit} id="search_vid">
                         <input

@@ -121,9 +121,21 @@ router.post("/", jwtAuth, upload.single("video"), async (req, res) => {
 
 router.delete("/:id", jwtAuth, async (req, res) => {
     const videoId = req.params.id;
+    const username = req.user.username;
 
     try {
         const videoToDelete = await getVideo(videoId);
+
+        if (!videoToDelete) {
+            return res.status(404).json({ error: "Video not found" });
+        }
+
+        if (videoToDelete.username !== username) {
+            return res
+                .status(403)
+                .json({ error: "Not authorized to delete this video" });
+        }
+
         const videoPath = videoToDelete.videoPath;
         const thumbnailPath = videoToDelete.thumbnailPath;
 

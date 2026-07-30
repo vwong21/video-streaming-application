@@ -1,20 +1,37 @@
 import { useNavigate } from "react-router-dom";
 import Upload from "./Upload";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 function Profile() {
     const [upload, setUpload] = useState(false);
     const navigate = useNavigate();
     const [videos, setVideos] = useState([]);
+    const [openMenuId, setOpenMenuId] = useState(null);
+    const menuRef = useRef(null);
 
     useEffect(() => {
         getVideos();
     }, []);
 
+    // Close the popup if you click anywhere outside of it
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setOpenMenuId(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const handleVideoClick = (video) => {
+        navigate("/", { state: { video } });
+    };
+
     const getVideos = async () => {
         const jwtToken = localStorage.getItem("token");
-        console.log("token:", jwtToken);
         try {
             const res = await axios.get(`${import.meta.env.VITE_VIDEOS_URL}`, {
                 headers: {
@@ -24,6 +41,31 @@ function Profile() {
             setVideos(res.data.videos);
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const toggleMenu = (e, videoId) => {
+        e.stopPropagation();
+        setOpenMenuId((prev) => (prev === videoId ? null : videoId));
+    };
+
+    const handleDelete = async (e, videoId) => {
+        e.stopPropagation();
+        const jwtToken = localStorage.getItem("token");
+        try {
+            await axios.delete(
+                `${import.meta.env.VITE_UPLOAD_URL}/${videoId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                    },
+                },
+            );
+            setVideos((prev) => prev.filter((v) => v.id !== videoId));
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setOpenMenuId(null);
         }
     };
 
@@ -40,7 +82,12 @@ function Profile() {
                         </div>
                         <h1>React File Upload</h1>
                         <div id="upload_file">
-                            <Upload />
+                            <Upload
+                                onSuccess={() => {
+                                    toggleUpload();
+                                    getVideos();
+                                }}
+                            />
                         </div>
                     </div>
                 </div>
@@ -61,24 +108,66 @@ function Profile() {
                     </div>
                 </div>
             </header>
-            <main id="profile_main">
-                <h2 id="your_videos_title">Your Videos:</h2>
-                <div className="profile_video_container">
-                    {videos.map((video) => {
-                        return (
-                            <div key={video.id} className="profile_video_card">
-                                <img
-                                    className="thumbnail"
-                                    src={`${video.thumbnailUrl}`}
-                                ></img>
-                                <div className="video_details_container">
-                                    <p className="video_title">{video.title}</p>
+            <div id="profile_content_container">
+                <main id="profile_main">
+                    <h2 id="your_videos_title">Your Videos:</h2>
+                    <div className="profile_video_container">
+                        {videos.map((video) => {
+                            return (
+                                <div
+                                    key={video.id}
+                                    className="profile_video_card"
+                                >
+                                    <img
+                                        className="profile_thumbnail"
+                                        src={`${video.thumbnailUrl}`}
+                                        onClick={() => handleVideoClick(video)}
+                                    ></img>
+                                    <div className="profile_details_container">
+                                        <div className="video_details_container">
+                                            <p
+                                                className="profile_video_title"
+                                                onClick={() =>
+                                                    handleVideoClick(video)
+                                                }
+                                            >
+                                                {video.title}
+                                            </p>
+                                            <div className="options_wrapper">
+                                                <img
+                                                    src="/three-dots.svg"
+                                                    className="profile_video_options"
+                                                    onClick={(e) =>
+                                                        toggleMenu(e, video.id)
+                                                    }
+                                                />
+                                                {openMenuId === video.id && (
+                                                    <div
+                                                        className="options_menu"
+                                                        ref={menuRef}
+                                                    >
+                                                        <button
+                                                            className="delete_option"
+                                                            onClick={(e) =>
+                                                                handleDelete(
+                                                                    e,
+                                                                    video.id,
+                                                                )
+                                                            }
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </main>
+                            );
+                        })}
+                    </div>
+                </main>
+            </div>
         </div>
     );
 }
