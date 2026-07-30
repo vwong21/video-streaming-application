@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 const Upload = ({ onSuccess }) => {
     const [file, setFile] = useState();
     const [title, setTitle] = useState();
@@ -41,7 +41,6 @@ const Upload = ({ onSuccess }) => {
                     setProgress(percent);
                 },
             });
-            console.log(res);
             setProgress(100);
             if (onSuccess) onSuccess(res.data);
         } catch (error) {
@@ -59,63 +58,82 @@ const Upload = ({ onSuccess }) => {
     }, [file]);
 
     return (
-        <>
-            <form onSubmit={submitForm} id="upload_vid">
-                <fieldset disabled={uploading} id="upload_fieldset">
-                    <div
-                        id="upload_title_container"
-                        className="upload_containers"
-                    >
-                        <input
-                            type="text"
-                            name="title"
-                            placeholder="Title"
-                            className="upload_inputs"
-                            value={title || ""}
-                            onChange={(e) => {
-                                setTitle(e.target.value);
-                            }}
-                        />
-                    </div>
-                    <div
-                        id="upload_description_container"
-                        className="upload_containers"
-                    >
-                        <input
-                            type="text"
-                            name="description"
-                            placeholder="Description"
-                            className="upload_inputs"
-                            value={description || null}
-                            onChange={(e) => {
-                                setDescription(e.target.value);
-                            }}
-                        />
-                    </div>
+        <form onSubmit={submitForm} id="upload_vid">
+            <fieldset disabled={uploading} id="upload_fieldset">
+                <label
+                    htmlFor="upload_video_file"
+                    id="upload_dropzone"
+                    className={file ? "upload_dropzone_filled" : ""}
+                >
+                    <span id="upload_dropzone_icon">&#8593;</span>
+                    <p id="upload_dropzone_text">
+                        {file ? file.name : "Choose a video file"}
+                    </p>
+                    {file && (
+                        <p id="upload_dropzone_subtext">
+                            Choose a different file
+                        </p>
+                    )}
+                </label>
+                <input
+                    type="file"
+                    accept="video/*"
+                    onChange={handleChange}
+                    id="upload_video_file"
+                />
+
+                <div className="upload_field">
+                    <label htmlFor="upload_title" className="upload_label">
+                        Title
+                    </label>
                     <input
-                        type="file"
-                        onChange={handleChange}
-                        id="upload_video_file"
+                        type="text"
+                        id="upload_title"
+                        name="title"
+                        placeholder="Give your video a title"
+                        className="upload_inputs"
+                        value={title || ""}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
-
-                    <button type="submit" id="upload_button">
-                        {uploading ? "Uploading..." : "Upload"}
-                    </button>
-                </fieldset>
-            </form>
-
-            {uploading && (
-                <div id="upload_progress_container">
-                    <div
-                        id="upload_progress_bar"
-                        style={{ width: `${progress}%` }}
-                    ></div>
-                    <p id="upload_progress_text">{progress}%</p>
                 </div>
-            )}
 
-            {error && <p id="upload_error">{error}</p>}
-        </>
+                <div className="upload_field">
+                    <label
+                        htmlFor="upload_description"
+                        className="upload_label"
+                    >
+                        Description
+                    </label>
+                    <input
+                        type="text"
+                        id="upload_description"
+                        name="description"
+                        placeholder="What's this video about"
+                        className="upload_inputs"
+                        value={description || ""}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
+
+                {uploading && (
+                    <div id="upload_progress_container">
+                        <div
+                            id="upload_progress_bar"
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
+                )}
+                {uploading && (
+                    <p id="upload_progress_text">Uploading, {progress}%</p>
+                )}
+
+                {error && <p id="upload_error">{error}</p>}
+
+                <button type="submit" id="upload_button">
+                    {uploading ? "Uploading..." : "Upload"}
+                </button>
+            </fieldset>
+        </form>
     );
 };
 

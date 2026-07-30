@@ -7,7 +7,7 @@ const { getVideo, searchVideos } = require(process.env.DB_PATH);
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const jwtAuth = require("./jwtAuth");
-const { getVideosByUsername } = require("./database");
+const { getVideosByUsername, getAllVideos } = require("./database");
 
 const client = new S3Client({
     region: process.env.AWS_REGION,
@@ -48,6 +48,33 @@ app.get("/stream", async (req, res) => {
         });
     }
 });
+
+app.get("/browse", async (req, res) => {
+    try {
+        const videos = await getAllVideos();
+        const resultsWithThumbnails = [];
+        for (const video of videos) {
+            const thumbnailUrl = await getSignedUrl(
+                client,
+                new GetObjectCommand({
+                    Bucket: process.env.AWS_THUMBNAIL_BUCKET,
+                    Key: video.thumbnailPath,
+                }),
+                { expiresIn: 3600 },
+            );
+
+            resultsWithThumbnails.push({ ...video, thumbnailUrl });
+        }
+        res.status(200).json(resultsWithThumbnails);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: "failed to load videos",
+            error: err.message,
+        });
+    }
+});
+
 app.get("/search", async (req, res) => {
     const searchQuery = req.query.search;
     console.log("Searching for:", searchQuery);

@@ -46,8 +46,14 @@ const getVideosByUsername = async (username) => {
     return rows;
 };
 
+const getAllVideos = async () => {
+    const [rows] = await pool.query(`SELECT * FROM videos ORDER BY id DESC`);
+    return rows;
+};
+
 module.exports = {
     getVideo,
     searchVideos,
     getVideosByUsername,
+    getAllVideos,
 };

@@ -2,11 +2,13 @@ import { useNavigate } from "react-router-dom";
 import Upload from "./Upload";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import ProfileMenu from "../components/ProfileMenu";
 
 function Profile() {
     const [upload, setUpload] = useState(false);
     const navigate = useNavigate();
     const [videos, setVideos] = useState([]);
+    const [videosLoaded, setVideosLoaded] = useState(false);
     const [openMenuId, setOpenMenuId] = useState(null);
     const menuRef = useRef(null);
 
@@ -41,6 +43,8 @@ function Profile() {
             setVideos(res.data.videos);
         } catch (err) {
             console.error(err);
+        } finally {
+            setVideosLoaded(true);
         }
     };
 
@@ -77,10 +81,16 @@ function Profile() {
             {upload && (
                 <div id="faded_background">
                     <div id="upload_file_container">
-                        <div onClick={toggleUpload} id="close_popup">
-                            Close
+                        <div id="upload_file_header">
+                            <p id="upload_file_title">Upload a video</p>
+                            <button
+                                onClick={toggleUpload}
+                                id="close_popup"
+                                aria-label="Close"
+                            >
+                                &#10005;
+                            </button>
                         </div>
-                        <h1>React File Upload</h1>
                         <div id="upload_file">
                             <Upload
                                 onSuccess={() => {
@@ -96,35 +106,68 @@ function Profile() {
                 <div id="header_container">
                     <h1 onClick={() => navigate("/")} id="title">
                         Stream
-                        <span style={{ color: "#008CBA", fontSize: "3rem" }}>
-                            Shelf
-                        </span>
+                        <span id="title_accent">Shelf</span>
                     </h1>
                     <div id="icons_container">
-                        <h2 onClick={toggleUpload} id="upload_header">
+                        <button onClick={toggleUpload} id="upload_header">
                             Upload
-                        </h2>
-                        <img src="/profile.svg" alt="" id="profile_svg" />
+                        </button>
+                        <ProfileMenu />
                     </div>
                 </div>
             </header>
             <div id="profile_content_container">
                 <main id="profile_main">
-                    <h2 id="your_videos_title">Your Videos:</h2>
-                    <div className="profile_video_container">
-                        {videos.map((video) => {
-                            return (
-                                <div
-                                    key={video.id}
-                                    className="profile_video_card"
-                                >
-                                    <img
-                                        className="profile_thumbnail"
-                                        src={`${video.thumbnailUrl}`}
-                                        onClick={() => handleVideoClick(video)}
-                                    ></img>
-                                    <div className="profile_details_container">
-                                        <div className="video_details_container">
+                    <h2 id="your_videos_title">Your videos</h2>
+                    {videosLoaded && videos.length === 0 ? (
+                        <div className="empty_state">
+                            <svg
+                                width="28"
+                                height="28"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                className="empty_state_icon"
+                            >
+                                <rect
+                                    x="2"
+                                    y="5"
+                                    width="15"
+                                    height="14"
+                                    rx="2"
+                                ></rect>
+                                <path d="M17 9l5-3v12l-5-3"></path>
+                            </svg>
+                            <p className="empty_state_title">
+                                Upload your first video
+                            </p>
+                            <p className="empty_state_body">
+                                Videos you upload will show up here.
+                            </p>
+                            <button
+                                onClick={toggleUpload}
+                                className="empty_state_button"
+                            >
+                                Upload a video
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="profile_video_container">
+                            {videos.map((video) => {
+                                return (
+                                    <div
+                                        key={video.id}
+                                        className="profile_video_card"
+                                    >
+                                        <img
+                                            className="profile_thumbnail"
+                                            src={`${video.thumbnailUrl}`}
+                                            onClick={() =>
+                                                handleVideoClick(video)
+                                            }
+                                        ></img>
+                                        <div className="profile_details_container">
                                             <p
                                                 className="profile_video_title"
                                                 onClick={() =>
@@ -134,13 +177,15 @@ function Profile() {
                                                 {video.title}
                                             </p>
                                             <div className="options_wrapper">
-                                                <img
-                                                    src="/three-dots.svg"
+                                                <button
                                                     className="profile_video_options"
                                                     onClick={(e) =>
                                                         toggleMenu(e, video.id)
                                                     }
-                                                />
+                                                    aria-label="Video options"
+                                                >
+                                                    &#8942;
+                                                </button>
                                                 {openMenuId === video.id && (
                                                     <div
                                                         className="options_menu"
@@ -162,10 +207,10 @@ function Profile() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </main>
             </div>
         </div>
