@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ProfileMenu = () => {
     const [open, setOpen] = useState(false);
+    const [confirmOpen, setConfirmOpen] = useState(false);
     const menuRef = useRef(null);
     const navigate = useNavigate();
 
@@ -21,6 +23,21 @@ const ProfileMenu = () => {
         localStorage.removeItem("token");
         setOpen(false);
         navigate("/auth");
+    };
+
+    const handleDeleteUser = async () => {
+        try {
+            const jwtToken = localStorage.getItem("token");
+            await axios.delete(import.meta.env.VITE_DEL_USER_URL, {
+                headers: { Authorization: `Bearer ${jwtToken}` },
+            });
+            localStorage.removeItem("token");
+            setConfirmOpen(false);
+            setOpen(false);
+            navigate("/auth");
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
@@ -45,7 +62,54 @@ const ProfileMenu = () => {
                     >
                         Log out
                     </button>
+                    <button
+                        className="profile_dropdown_option delete_option"
+                        onClick={() => {
+                            setOpen(false);
+                            setConfirmOpen(true);
+                        }}
+                    >
+                        Delete Profile
+                    </button>
                 </div>
+            )}
+
+            {confirmOpen && (
+                <>
+                    <div
+                        id="faded_background"
+                        onClick={() => setConfirmOpen(false)}
+                    />
+                    <div id="upload_file_container">
+                        <div id="upload_file_header">
+                            <span id="upload_file_title">Delete profile?</span>
+                            <button
+                                id="close_popup"
+                                onClick={() => setConfirmOpen(false)}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <p id="confirm_delete_body">
+                            This will permanently delete your account and all
+                            your videos. This action cannot be undone.
+                        </p>
+                        <div id="confirm_delete_actions">
+                            <button
+                                className="confirm_cancel_button"
+                                onClick={() => setConfirmOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="confirm_delete_button"
+                                onClick={handleDeleteUser}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );

@@ -713,8 +713,41 @@ button {
     background-color: var(--surface-muted);
 }
 
-.logout_option {
+.delete_option {
     color: var(--danger);
+}
+
+#confirm_delete_body {
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+#confirm_delete_actions {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0.75rem;
+}
+
+#confirm_delete_actions button {
+    flex: 1;
+}
+
+.confirm_cancel_button {
+    padding: 0.5rem 0 0.5rem 0;
+    background-color: var(--surface-panel);
+    color: var(--text-primary);
+}
+
+.confirm_cancel_button:hover {
+    background-color: var(--border);
+}
+
+.confirm_delete_button {
+    background-color: var(--danger);
+}
+
+.confirm_delete_button:hover {
+    filter: brightness(0.9);
 }
 
 /* large screens */
