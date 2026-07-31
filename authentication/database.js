@@ -30,7 +30,15 @@ const createUser = async (username, firstName, lastName, password, email) => {
     return getUser(username);
 };
 
+const deleteUser = async (username) => {
+    const rows = await pool.query(`DELETE FROM users WHERE username = ?`, [
+        username,
+    ]);
+    return rows[0];
+};
+
 module.exports = {
     getUser,
     createUser,
+    deleteUser,
 };

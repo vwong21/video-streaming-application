@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const { getUser, createUser } = require("./database");
+const { getUser, createUser, deleteUser } = require("./database");
 const authenticateToken = require("./middleware");
 
 dotenv.config();
@@ -43,6 +43,22 @@ router.post("/register", async (req, res) => {
 
 router.get("/validate", authenticateToken, (req, res) => {
     res.status(200).json({ valid: true, username: req.user.username });
+});
+
+router.delete("/deleteUser", authenticateToken, async (req, res) => {
+    const username = req.user.username;
+    try {
+        await deleteUser(username);
+        res.status(200).json({
+            Message: `Successfully Deleted User: ${username}`,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            Message: `Error Deleteing User: ${username}`,
+            Error: err,
+        });
+    }
 });
 
 module.exports = router;
