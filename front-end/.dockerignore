@@ -1,0 +1,9 @@
+# For Deployment Purposes. For Local, Comment Them Out
+.env
+.env.*
+
+node_modules
+npm-debug.log
+.git
+.gitignore
+*.md
