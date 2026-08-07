@@ -41,7 +41,12 @@ function App() {
 
     const getBrowseVideos = async () => {
         try {
-            const res = await axios.get(import.meta.env.VITE_BROWSE_URL);
+            const token = localStorage.getItem("token");
+            const res = await axios.get(import.meta.env.VITE_BROWSE_URL, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setBrowse(res.data);
         } catch (err) {
             console.error(err);
@@ -52,6 +57,7 @@ function App() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem("token");
         if (!title.trim()) {
             getBrowseVideos();
             return;
@@ -59,6 +65,11 @@ function App() {
         try {
             const res = await axios.get(
                 `${import.meta.env.VITE_SEARCH_URL}?search=${title}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
             );
             setBrowse(res.data);
         } catch (err) {

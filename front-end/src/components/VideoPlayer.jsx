@@ -10,7 +10,13 @@ const VideoPlayer = ({ videoId }) => {
         setVideoUrl(null);
         setError(null);
 
-        fetch(`${streamURL}?id=${videoId}`)
+        const token = localStorage.getItem("token");
+
+        fetch(`${streamURL}?id=${videoId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((res) => {
                 if (!res.ok) throw new Error("failed to load video");
                 return res.json();

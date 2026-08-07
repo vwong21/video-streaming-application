@@ -20,7 +20,7 @@ const client = new S3Client({
 app.use(cors());
 app.use(express.json());
 
-app.get("/stream", async (req, res) => {
+app.get("/stream", jwtAuth, async (req, res) => {
     console.log(req.query.id);
     const filePathObject = await getVideo(req.query.id);
     console.log(filePathObject);
@@ -49,7 +49,7 @@ app.get("/stream", async (req, res) => {
     }
 });
 
-app.get("/browse", async (req, res) => {
+app.get("/browse", jwtAuth, async (req, res) => {
     try {
         const videos = await getAllVideos();
         const resultsWithThumbnails = [];
@@ -75,7 +75,7 @@ app.get("/browse", async (req, res) => {
     }
 });
 
-app.get("/search", async (req, res) => {
+app.get("/search", jwtAuth, async (req, res) => {
     const searchQuery = req.query.search;
     console.log("Searching for:", searchQuery);
     if (!searchQuery)
