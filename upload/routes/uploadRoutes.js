@@ -106,6 +106,7 @@ router.post("/", jwtAuth, upload.single("video"), async (req, res) => {
 
         res.status(201).json({
             success: true,
+            id: video,
             title,
             videoKey,
             thumbnailKey,
@@ -169,8 +170,6 @@ router.delete("/:id", jwtAuth, async (req, res) => {
     }
 });
 
-router.get("/validate", jwtAuth, (req, res) => {
-    res.status(200).json({ valid: true, username: req.user.username });
-});
+router.get("/health", (req, res) => res.status(200).send("OK"));
 
 module.exports = router;
