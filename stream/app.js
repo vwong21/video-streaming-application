@@ -253,4 +253,8 @@ app.get("/videos", jwtAuth, async (req, res) => {
     }
 });
 
+router.get("/validate", jwtAuth, (req, res) => {
+    res.status(200).json({ valid: true, username: req.user.username });
+});
+
 app.listen(3003);
