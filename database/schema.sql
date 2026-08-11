@@ -16,5 +16,5 @@ CREATE TABLE videos (
     thumbnailPath VARCHAR(255) NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     username VARCHAR(255),
-    FOREIGN KEY (username) REFERENCES users(username)
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
 );
