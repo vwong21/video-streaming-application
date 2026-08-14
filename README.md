@@ -103,3 +103,13 @@ Built to work through, end to end:
 * Direct-to-S3 uploads with presigned URLs instead of routing large files through the backend
 * Stateless authentication with JWT across multiple services
 * Making deliberate cost tradeoffs instead of leaving infrastructure running unmanaged
+
+## 📸 Screenshots
+
+| Login | Watch Page |
+|---|---|
+| ![Login screen](./screenshots/login.png) | ![Watch page with browse grid](./screenshots/watch-page.png) |
+
+| Upload |
+|---|
+| ![Upload modal](./screenshots/upload-modal.png) |
