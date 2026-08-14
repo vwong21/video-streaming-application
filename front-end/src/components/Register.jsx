@@ -14,6 +14,7 @@ const Register = ({ onSuccess }) => {
         setError(null);
 
         try {
+            console.log(import.meta.env.VITE_REG_URL);
             await axios.post(import.meta.env.VITE_REG_URL, {
                 username: username,
                 firstName: firstName,
